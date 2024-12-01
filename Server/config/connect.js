@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dbConnect = async ()=>{
     console.log("Function Called")
     try{
-        mongoose.connect('mongodb://127.0.0.1:27017/voting')
+        mongoose.connect(process.env.DB_URL)
         .then(()=>{
             console.log('DB Connected')
         })

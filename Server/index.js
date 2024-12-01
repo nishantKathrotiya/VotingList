@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 const authRoutes = require("./Routes/AuthRoutes");
+const dataRoutes = require("./Routes/DataRoutes");
 
 const dbConnect = require("./config/connect");
 const cookieParser = require("cookie-parser");
@@ -28,6 +29,7 @@ app.use(
 
 //routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/data", dataRoutes);
 
 
 app.get("/", (req, res) => {

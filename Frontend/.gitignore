@@ -1,12 +1,3 @@
-#Frontend NodeModule
-./Frontend/node_module
-
-#Server node_module
-./Server/node_module
-
-node_modules
-.env
-
 # Logs
 logs
 *.log

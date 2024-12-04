@@ -1,0 +1,129 @@
+.updateConatiner{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "poppins";
+}
+
+.loadingConatienr{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    font-weight: 700;
+}
+
+.innerConatienr{
+    width: 70%;
+    height: 60%;
+    background-color: #fff;
+    border: 1px solid rgb(163, 163, 163);
+    border-radius: 17px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upperlable{
+    width: 70%;
+    padding: 3px 15px;
+}
+
+.backBtn{
+    font-weight: 800;
+    cursor: pointer;
+    padding-top: 50px;
+}
+.test{
+    width: 49.5%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.inputContaienr{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.inputContaienr input{
+    width: 100%;
+    padding: 10px;
+    font-size: medium;
+    border-radius: 3px;
+    border: 1px solid #9d9d9d;
+
+}
+
+.inputContaienr textarea{
+    width: 100%;
+    padding: 10px;
+    font-size: medium;
+    border-radius: 3px;
+    border: 1px solid #9d9d9d;
+}
+
+.btnContaienr{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.btnContaienr button{
+    padding: 8px 40px;
+    background-color: transparent;
+    outline: none;
+    border: 1px solid #6d6d6d;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: medium;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+
+
+
+@media (max-width:760px) {
+    .innerConatienr{
+        height: max-content;
+        width: 90%;
+        padding: 20px 0px;
+        flex-direction: column;
+    }
+    .test{
+        width: 98%;
+        padding: 0;
+    }
+
+    .inputContaienr{
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+    .upperlable{
+        width: 90%;
+        padding: 3px 15px;
+        font-size: x-large;
+    }
+}

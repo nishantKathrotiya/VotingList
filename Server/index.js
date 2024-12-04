@@ -29,7 +29,9 @@ app.use(
 
 //routes
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/data", dataRoutes);
+// app.use("/api/v1/data", dataRoutes);
+app.use("/api/v1/baseuser", dataRoutes);
+
 
 
 app.get("/", (req, res) => {

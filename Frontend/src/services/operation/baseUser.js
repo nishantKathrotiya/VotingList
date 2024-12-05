@@ -6,7 +6,7 @@ import { baseUserEndPoitns } from "../api";
 
 export async function getBaseUserList(setData,setLoading){
 
-    const toastId = toast.loading("Loading...")
+   
     setLoading(true)
     try {
         const response = await apiConnector("GET", baseUserEndPoitns.GET_List)
@@ -22,13 +22,11 @@ export async function getBaseUserList(setData,setLoading){
         toast.error(error.message)
     }
     setLoading(false);
-    toast.dismiss(toastId)
-
 }
 
 export async function getBaseUserListByMemberNo(memberNo,setData,setLoading){
 
-    const toastId = toast.loading("Loading...")
+  
     setLoading(true)
     try {
         const response = await apiConnector("GET", baseUserEndPoitns.GET_List+`/${memberNo}`)
@@ -51,7 +49,7 @@ export async function getBaseUserListByMemberNo(memberNo,setData,setLoading){
         toast.error(error.message)
     }
     setLoading(false);
-    toast.dismiss(toastId)
+    
 
 }
 

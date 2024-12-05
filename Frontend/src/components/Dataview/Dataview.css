@@ -23,6 +23,7 @@
 
 .lastLine{
     margin-right: 50px;
+    white-space: pre-wrap;
 }
 
 .iconSmall{

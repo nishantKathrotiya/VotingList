@@ -12,7 +12,7 @@ const List = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-      getBaseUserList(setData, setLoading)
+            getBaseUserList(setData, setLoading)
     }, [])
 
     return (
@@ -22,13 +22,13 @@ const List = () => {
                     loading ? (<div className='loadingCenter'><h1>Loading...</h1></div>) : (
                         <>
                             {
-                            data.length == 0 ? (<div className='loadingCenter'><h1>No Data Found</h1></div>) : (
-                                <>
-                                <Datatable data={data} />
-                                
-                            </>
-                            )
-                        }
+                                data.length == 0 ? (<div className='loadingCenter'><h1>No Data Found</h1></div>) : (
+                                    <>
+                                        <Datatable data={data} />
+
+                                    </>
+                                )
+                            }
                         </>
                     )
                 }

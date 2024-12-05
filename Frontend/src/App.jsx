@@ -1,7 +1,10 @@
 import { Route, Routes } from 'react-router-dom'
 import List from './pages/List/List.jsx'
 import MemberUpdate from './pages/MemberUpdate/MemberUpdate.jsx'
-
+import AdminLayout from './layout/AdminLayout.jsx'
+import UserLayout from './layout/UserLayout.jsx'
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard.jsx'
+import Vote from './pages/Vote/Vote.jsx'
 function App() {
   
 
@@ -17,6 +20,18 @@ function App() {
 
         <Route path="/list" element={<List /> } />
         <Route path="/list/:memberNo/edit" element={<MemberUpdate /> } />
+
+        <Route path="/admin" element={<AdminLayout/> }>
+          <Route path="/admin" element={<AdminDashboard /> }/>
+          <Route path="/admin/list" element={<List /> } />
+          <Route path="/admin/:memberNo/edit" element={<MemberUpdate /> } />
+          <Route path="/admin/:memberNo/vote" element={<Vote /> } />
+        </Route>
+
+
+        <Route path="/user" element={<UserLayout /> }>
+          <Route path="/user" element={<>List With Votted whom</> }/>
+        </Route>
 
       </Routes>
     </>

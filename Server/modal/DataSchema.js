@@ -25,9 +25,19 @@ const dataSchema = mongoose.Schema({
     pannel: {
         type: String,
     },
-    vote: {
-        type: String,
+    currentPollVote:{
+        type:String,
+        enum:['a','b','c','n'],
+        default:'n'
     },
+    votes: {
+        type: Map,
+        of: {
+            vote: { type: String },         
+            updatedAt: { type: Date, default: Date.now },  
+        },
+        default: {}
+      },
 },{timestamps:true});
 
 dataSchema.pre('save', function(next) {
@@ -37,4 +47,4 @@ dataSchema.pre('save', function(next) {
     next(); // Call the next middleware or save method
   });
 
-module.exports = mongoose.model('User', dataSchema);
+module.exports = mongoose.model('Member', dataSchema);

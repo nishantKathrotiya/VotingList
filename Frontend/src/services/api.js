@@ -43,3 +43,7 @@ export const baseUserEndPoitns = {
   GET_List: BASE_URL + "/api/v1/baseuser/list",
   UPDATE_MEMBER : BASE_URL + "/api/v1/baseuser/edit",
 }
+
+export const adminEndPoints = {
+  GET_STATS: BASE_URL + "/api/v1/admin/statistic",
+}

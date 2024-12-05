@@ -3,6 +3,7 @@ const app = express();
 
 const authRoutes = require("./Routes/AuthRoutes");
 const dataRoutes = require("./Routes/DataRoutes");
+const adminRoutes = require("./Routes/AdminRoutes")
 
 const dbConnect = require("./config/connect");
 const cookieParser = require("cookie-parser");
@@ -29,7 +30,7 @@ app.use(
 
 //routes
 app.use("/api/v1/auth", authRoutes);
-// app.use("/api/v1/data", dataRoutes);
+app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/baseuser", dataRoutes);
 
 

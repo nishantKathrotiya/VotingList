@@ -100,4 +100,14 @@ const updateMember = async (req, res) => {
     }
 };
 
-module.exports = { getAllData, getDataByName,getDataByMemberID,updateMember };
+const addressUpdates = async (req, res) =>  {
+    try {
+        const addresses = await dataSchema.distinct('address');
+         res.send({length:addresses.length , count:addresses})
+    } catch (error) {
+        console.error('Error fetching distinct addresses:', error);
+    }
+}
+
+
+module.exports = { getAllData, getDataByName,getDataByMemberID,updateMember,addressUpdates };

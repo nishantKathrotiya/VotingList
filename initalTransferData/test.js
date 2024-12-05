@@ -1,10 +1,11 @@
 const fs = require("fs");
 const XLSX = require("xlsx");
 const DataModel = require("./dataModal");
+const pollModal = require('./PollSchema')
 const mongoose = require("mongoose");
 
 //Provide XLSX File to Get Data and Store to DB
-const excelFilePath = "path_XLSX_File.xlsx";
+const excelFilePath = "path_to_xlsx.xlsx";
 const workbook = XLSX.readFile(excelFilePath);
 
 // Get the first sheet
@@ -50,9 +51,22 @@ mongoose.connect(url).then(() => {
       }
   
       console.log('Data upload completed.');
-      mongoose.connection.close();
+      uploadPoll(totalRecords);
+      
     } catch (error) {
       console.error("Error during data upload:", error);
     }
   };
 
+  const uploadPoll = async(totalRecords)=>{
+    try {
+      
+          const result = await pollModal.create({
+            currentPoll:1,
+            totalMembers:totalRecords,
+          });
+          mongoose.connection.close();
+    } catch (error) {
+      console.error("Error during data upload:", error);
+    }
+  }

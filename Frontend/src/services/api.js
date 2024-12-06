@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:4000"
+// const BASE_URL = "http://localhost:4000"
+const BASE_URL = "https://votinglist.onrender.com"
 
 export const endpoints = {
     SENDOTP_API: BASE_URL + "/api/v1/auth/sendotp",

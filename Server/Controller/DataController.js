@@ -3,7 +3,7 @@ const dataSchema = require("../modal/DataSchema")
 // Get all data
 const getAllData = async (req, res) => {
     try {
-        const data = await dataSchema.find(); // Fetch all documents from the 'User' collection
+        const data = await dataSchema.find({},{memberNo:1,name:1,address:1,currentPollVote:1,_id:0}); // Fetch all documents from the 'User' collection
         res.status(200).json({
             success: true,
             data:data

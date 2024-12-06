@@ -18,19 +18,19 @@ function App() {
 
         <Route path='/signup' element={<h1>Hello</h1>} />
 
-        <Route path="/list" element={<List /> } />
-        <Route path="/list/:memberNo/edit" element={<MemberUpdate /> } />
+        
 
         <Route path="/admin" element={<AdminLayout/> }>
           <Route path="/admin" element={<AdminDashboard /> }/>
-          <Route path="/admin/list" element={<List /> } />
+          <Route path="/admin/list" element={<List  id={"admin"} /> } />
           <Route path="/admin/:memberNo/edit" element={<MemberUpdate /> } />
           <Route path="/admin/:memberNo/vote" element={<Vote /> } />
+          <Route path="/admin/allpolls" element={<h1>Coming Soon..</h1> } />
         </Route>
 
 
         <Route path="/user" element={<UserLayout /> }>
-          <Route path="/user" element={<>List With Votted whom</> }/>
+          <Route path="/user" element={<List id={"user"} /> } />
         </Route>
 
       </Routes>

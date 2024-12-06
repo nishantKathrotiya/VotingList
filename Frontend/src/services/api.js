@@ -46,4 +46,8 @@ export const baseUserEndPoitns = {
 
 export const adminEndPoints = {
   GET_STATS: BASE_URL + "/api/v1/admin/statistic",
+  SEND_VOTE : BASE_URL + "/api/v1/admin/vote",
+  GET_MEMBER_VOTE : BASE_URL + "/api/v1/admin/getmembervote",
+  UNVOTE : BASE_URL + "/api/v1/admin/unvote",
+  NEW_POLL : BASE_URL + "/api/v1/admin/newpoll"
 }

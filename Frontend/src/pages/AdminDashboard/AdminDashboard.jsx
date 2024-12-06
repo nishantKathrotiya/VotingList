@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import s from './AdminDashboard.module.css'
-import { getStats } from '../../services/operation/adminApi';
-import PollDropdown from '../../components/PollDropdown/PollDropdown';
+import { getStats ,startNewPoll } from '../../services/operation/adminApi';
 import {Link} from 'react-router-dom'
 const AdminDashboard = () => {
 
@@ -11,6 +10,14 @@ const AdminDashboard = () => {
   useEffect(() => {
     getStats(setData, setLoading)
   }, [])
+
+  const newPollHandler = (e)=>{
+    e.preventDefault();
+    const userConsent = window.confirm(`Are you sure you want start new poll?`);
+    if(userConsent){
+      startNewPoll(setData,setLoading)
+    }
+  }
 
   return (
     <div className={s.adminDashContainer}>
@@ -38,9 +45,9 @@ const AdminDashboard = () => {
                     <div className={s.card}>
                       <div className={s.pollDiv}>
                         <h2>Current Poll</h2>
-                        <PollDropdown currentPoll={data.pollDetails.currentPoll} />
+                        <Link to='/admin/allpolls' className={s.LinkFix}><h4>See All Poll results</h4></Link>
                       </div>
-                      <p className={s.cardText}>Current Poll : {data.pollDetails.currentPoll} <button>Start New Poll</button></p>
+                      <p className={s.cardText}>Current Poll : {data.pollDetails.currentPoll} <button onClick={(e)=>newPollHandler(e)}>Start New Poll</button></p>
 
                     </div>
 

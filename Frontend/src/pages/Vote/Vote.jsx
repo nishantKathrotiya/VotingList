@@ -1,13 +1,51 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import s from './Vote.module.css';
 import { FaArrowLeft } from "react-icons/fa";
+import { getMemberVote, sendVote , unvoteMember } from '../../services/operation/adminApi';
 const Vote = () => {
 
     const [loading,setLoading] = useState(false);
-    const [data,setData] = useState(null)
+    const [data,setData] = useState({
+        name: '', 
+        address: '',  
+        feeRecipt:  0, 
+        mobileNo: '0000000000', 
+        ref: '',  
+        pannel:'',
+        currentPollVote:'n'
+    });
     const {memberNo} = useParams()
     const navigate = useNavigate()
+
+    useEffect(()=>{
+            getMemberVote(memberNo,setData,setLoading)
+    },[])
+
+    const votehandler = (e, vote)=>{
+        e.preventDefault();
+        if(data.currentPollVote != 'n'){
+            alert("Unvote First");
+            return;
+        }
+        const userConsent = window.confirm(`Are you sure you want to vote for ${vote}?`);
+        if(userConsent){
+            sendVote(memberNo,vote,setLoading,setData)
+        }
+    }
+
+    const unvoteHandler = (e)=>{
+        e.preventDefault();
+        if(data.currentPollVote == 'n'){
+            alert("vote First");
+            return;
+        }
+        const userConsent = window.confirm(`Are you sure you want to unvote?`);
+        if(userConsent){
+            //Unvote Function Call
+            unvoteMember(memberNo,setLoading,setData);
+        }
+    }
 
   return (
     <div className={s.updateConatiner}>
@@ -24,20 +62,20 @@ const Vote = () => {
                 ) : (
                     <>
                         {
-                            (data!=null)?(<>Data Not Found</>) : (
+                            (data==null)?(<>Data Not Found</>) : (
                                 <>
                                     <div className={s.test}>
-                                        <h3>Name : Nisant </h3>
-                                        <h3>Address : Nisant </h3>
-                                        <h3>Mobile No : Nisant </h3>cls
-                                        <h3>Fees recipt No. : Nisant </h3>
-                                        <h3>pannel : Nisant </h3>
+                                        <h3>Name : {data.name} </h3>
+                                        <h3>Address : {data.address} </h3>
+                                        <h3>Mobile No : {data.mobileNo} </h3>
+                                        <h3>Fees recipt No. : {data.feeRecipt} </h3>
+                                        <h3>pannel : {data.pannel} </h3>
                                     </div>
 
                                     <div className={`${s.test} ${s.flex}`}>
-                                        <button className={s.active}>Vote A</button>
-                                        <button>Vote B</button>
-                                        <button>Vote C</button>
+                                        <button className={data.currentPollVote == 'a' ? ( s.active ) : ('')} onClick={(e)=>votehandler(e,'a')}>Vote A</button>
+                                        <button className={data.currentPollVote == 'b' ? ( s.active ) : ('')} onClick={(e)=>votehandler(e,'b')}>Vote B</button>
+                                        <button className={data.currentPollVote == 'c' ? ( s.active ) : ('')} onClick={(e)=>votehandler(e,'c')}>Vote C</button>
                                     </div>
                                 </>
                             )
@@ -47,9 +85,9 @@ const Vote = () => {
             </form>
             <div className={s.btnContaienr}>
                 {loading ? (
-                    <button disabled>UnVote</button>
+                    <button disabled="true">Loading...</button>
                 ) : (
-                    <button type="submit">UnVote</button>
+                    <button type="submit" disabled={data.currentPollVote == 'n' ? ( true ) : (false)} onClick={(e)=>unvoteHandler(e)}>UnVote</button>
                 )}
             </div>
         </div>

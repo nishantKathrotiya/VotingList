@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import s from './AdminDashboard.module.css'
 import { getStats ,startNewPoll } from '../../services/operation/adminApi';
 import {Link} from 'react-router-dom'
+import SearchToVote from '../../components/SearchToVote/SearchToVote';
+
 const AdminDashboard = () => {
 
   const [loading, setLoading] = useState(false);
@@ -32,7 +34,7 @@ const AdminDashboard = () => {
               data == null ? (<>Data Not Found</>) : (
                 <>
                   <div className={s.cardContainer}>
-
+                  <SearchToVote />
                     <div className={s.card}>
                       <h2>Current Statistics</h2>
                       <p className={s.cardText}>
@@ -65,6 +67,8 @@ const AdminDashboard = () => {
                       <h2>Members</h2>
                       <Link to="/admin/list"><p className={s.cardText}>Tap To See the List & Edit</p></Link>
                     </div>
+
+                    {/* <SearchToVote /> */}
                   </div>
                 </>
               )

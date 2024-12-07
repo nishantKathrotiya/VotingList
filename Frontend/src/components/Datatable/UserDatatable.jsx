@@ -6,7 +6,11 @@ import "./Datatable.css";
 import { Link } from 'react-router-dom';
 
 const UserDatatable = ({ data }) => {
+
     const [searchQuery, setSearchQuery] = useState('');
+    const [voteQuery, setVoteQuery] = useState('');
+    const [addressQuery, setAddressQuery] = useState('');
+    const [sortConfig, setSortConfig] = useState(null);
     const [filteredData, setFilteredData] = useState(data);
 
     useEffect(() => {
@@ -23,8 +27,38 @@ const UserDatatable = ({ data }) => {
             });
         }
 
+        if (addressQuery) {
+            filtered = filtered.filter(entry => {
+                const query = addressQuery.toLowerCase();
+                return (
+                    (entry.address && entry.address.toString().toLowerCase().includes(query))                    
+                );
+            });
+        }
+
+        if (voteQuery) {
+            filtered = filtered.filter(entry => {
+                const query = voteQuery.toLowerCase();
+                return (
+                    (entry.currentPollVote && entry.currentPollVote.toString().toLowerCase().includes(query))                    
+                );
+            });
+        }
+
+        if (sortConfig !== null) {
+            filtered.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+
         setFilteredData(filtered);
-    }, [searchQuery, data]);
+    }, [searchQuery, sortConfig,voteQuery,addressQuery, data]);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -33,8 +67,9 @@ const UserDatatable = ({ data }) => {
     const clearFilters = () => {
         setSearchQuery('');
         setSortConfig(null);
+        setVoteQuery('');
+        setAddressQuery('');
     };
-
 
     return (
         <div className='dataTableContainer'>
@@ -56,8 +91,8 @@ const UserDatatable = ({ data }) => {
                 <div className='columnTitle'>
                     <span className='titlelable'>Member No</span>
                     <span className='titlelable'>Name </span>
-                    <span className='titlelable '>Address</span>
-                    <span className='titlelable lastLine'>Vote</span>
+                    <span className='titlelable '>Address <Filter id="address" callBack={setAddressQuery}/></span>
+                    <span className='titlelable lastLine'>Vote <Filter id="vote" callBack={setVoteQuery}/></span>
                 </div>
                 {
                     filteredData.length === 0 ? (

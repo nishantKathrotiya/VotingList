@@ -37,8 +37,10 @@
     border-width: 1px;
     background-color: #fffefe;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    max-width:190px ;
+    max-width:200px ;
     min-width: 160px;
+    max-height: 250px;
+    overflow-y: scroll;
   }
   
   .imageAtDropDown{

@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 
 const Datatable = ({ data }) => {
     const [searchQuery, setSearchQuery] = useState('');
+    const [voteQuery, setVoteQuery] = useState('');
+    const [addressQuery, setAddressQuery] = useState('');
     const [sortConfig, setSortConfig] = useState(null);
     const [filteredData, setFilteredData] = useState(data);
 
@@ -24,6 +26,24 @@ const Datatable = ({ data }) => {
             });
         }
 
+        if (addressQuery) {
+            filtered = filtered.filter(entry => {
+                const query = addressQuery.toLowerCase();
+                return (
+                    (entry.address && entry.address.toString().toLowerCase().includes(query))                    
+                );
+            });
+        }
+
+        if (voteQuery) {
+            filtered = filtered.filter(entry => {
+                const query = voteQuery.toLowerCase();
+                return (
+                    (entry.currentPollVote && entry.currentPollVote.toString().toLowerCase().includes(query))                    
+                );
+            });
+        }
+
         if (sortConfig !== null) {
             filtered.sort((a, b) => {
                 if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -37,7 +57,7 @@ const Datatable = ({ data }) => {
         }
 
         setFilteredData(filtered);
-    }, [searchQuery, sortConfig, data]);
+    }, [searchQuery, sortConfig,voteQuery,addressQuery, data]);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -46,6 +66,8 @@ const Datatable = ({ data }) => {
     const clearFilters = () => {
         setSearchQuery('');
         setSortConfig(null);
+        setVoteQuery('');
+        setAddressQuery('');
     };
 
     // const requestSort = (key) => {
@@ -99,7 +121,7 @@ const Datatable = ({ data }) => {
                 <div className='columnTitle'>
                     <span className='titlelable'>Member No</span>
                     <span className='titlelable'>Name </span>
-                    <span className='titlelable '>Address</span>
+                    <span className='titlelable '>Address  <Filter id="address" callBack={setAddressQuery} /> </span>
                     <span className='titlelable lastLine'>Action</span>
                 </div>
                 {

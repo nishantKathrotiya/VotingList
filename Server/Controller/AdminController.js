@@ -276,33 +276,10 @@ const newPoll = async (req, res) => {
   }
 };
 
-const getCookies = async (req, res) => {
-  try {
-    res.cookie("user", "JohnDoe", {
-        domain: ".votinglist.onrender.com", // Allows sharing across subdomains
-        path: "/", // Accessible across routes
-        httpOnly: false,
-        secure: true,
-        sameSite: "None",
-        maxAge: 24 * 60 * 60 * 1000,
-    });
-
-    res.send({
-      success: true,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
 module.exports = {
   getStatistics,
   vote,
   getVoteDetails,
   unvote,
   newPoll,
-  getCookies,
 };

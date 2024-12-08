@@ -114,22 +114,3 @@ export async function startNewPoll(setData,setLoading){
     }
     setLoading(false);
 }
-
-export async function getCoo(setData,setLoading){
-   
-    try {
-        const response = await apiConnector("GET", adminEndPoints.GET_C)
-        console.log("LOGIN API RESPONSE............", response)
-
-        if(!response.data.success) {
-            throw new Error(response.data.message)
-        }
-
-        toast.success("Cookies Arrived")
-    }
-    catch (error) {
-        console.log("LOGIN API ERROR............", error)
-        toast.error(error.message)
-    }
-    
-}

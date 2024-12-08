@@ -279,10 +279,12 @@ const newPoll = async (req, res) => {
 const getCookies = async (req, res) => {
   try {
     res.cookie("user", "JohnDoe", {
-      httpOnly: false, // Make sure it's not httpOnly if you want to access it in JavaScript
-      secure: true, // Set to true in production with HTTPS (important for secure cookies)
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      sameSite: "None",
+        domain: ".votinglist.onrender.com", // Allows sharing across subdomains
+        path: "/", // Accessible across routes
+        httpOnly: false,
+        secure: true,
+        sameSite: "None",
+        maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.send({

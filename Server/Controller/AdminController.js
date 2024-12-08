@@ -1,47 +1,131 @@
 const dataSchema = require("../modal/DataSchema")
 const pollSchema  = require("../modal/PollDetails")
 // Get all data
+// const getStatistics = async (req, res) => {
+//     try {
+//         const result = await dataSchema.aggregate([
+//             {
+//                 $group: {
+//                     _id: "$currentPollVote", // Group by the 'currentPollVote' field
+//                     count: { $sum: 1 }      // Count occurrences of each value ('a', 'b', 'c', 'n')
+//                 }
+//             },
+//             {
+//                 $project: {
+//                     _id: 0,         // Exclude _id from the result
+//                     vote: "$_id",   // Rename _id to 'vote' to show the actual vote value ('a', 'b', 'c', 'n')
+//                     count: 1
+//                 }
+//             }
+//         ]);
+
+//         // List of all possible votes
+//         const allVotes = ['a', 'b', 'c', 'n'];
+
+//         // Create a map of the result for easier lookup
+//         const resultMap = result.reduce((acc, item) => {
+//             acc[item.vote] = item.count;
+//             return acc;
+//         }, {});
+
+//         // Ensure all votes ('a', 'b', 'c', 'n') are included in the map with default counts
+//         allVotes.forEach(vote => {
+//             if (!resultMap[vote]) {
+//                 resultMap[vote] = 0; // Default to 0 if no count exists for the vote
+//             }
+//         });
+
+//         const pollRes = await pollSchema.find({}, { _id: 0 });
+
+//         // Construct the final response
+//         res.status(200).json({
+//             success: true,
+//             data: resultMap, // Use the transformed object
+//             pollDetails: pollRes[0]
+//         });
+
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error.message });
+//     }
+// };
+
 const getStatistics = async (req, res) => {
     try {
-        const result = await dataSchema.aggregate([
+        // Get the count of votes for each party where 'votted' is 'y'
+        const voteCounts = await dataSchema.aggregate([
+            {
+                $match: { votted: 'y' } // Only consider members who have voted ('y')
+            },
             {
                 $group: {
-                    _id: "$currentPollVote", // Group by the 'currentPollVote' field
-                    count: { $sum: 1 }      // Count occurrences of each value ('a', 'b', 'c', 'n')
+                    _id: "$party", // Group by the 'party' field (a, b, c)
+                    voteCount: { $sum: 1 } // Count the number of votes per party
                 }
             },
             {
                 $project: {
-                    _id: 0,         // Exclude _id from the result
-                    vote: "$_id",   // Rename _id to 'vote' to show the actual vote value ('a', 'b', 'c', 'n')
-                    count: 1
+                    _id: 0,       // Exclude _id from the result
+                    party: "$_id", // Rename _id to 'party'
+                    voteCount: 1   // Include the count
                 }
             }
         ]);
 
-        // List of all possible votes
-        const allVotes = ['a', 'b', 'c', 'n'];
+        // List of all possible parties
+        const allParties = ['a', 'b', 'c'];
 
         // Create a map of the result for easier lookup
-        const resultMap = result.reduce((acc, item) => {
-            acc[item.vote] = item.count;
+        const voteCountMap = voteCounts.reduce((acc, item) => {
+            acc[item.party] = item.voteCount;
             return acc;
         }, {});
 
-        // Ensure all votes ('a', 'b', 'c', 'n') are included in the map with default counts
-        allVotes.forEach(vote => {
-            if (!resultMap[vote]) {
-                resultMap[vote] = 0; // Default to 0 if no count exists for the vote
+        // Ensure all parties ('a', 'b', 'c') are included in the map with default vote count of 0
+        allParties.forEach(party => {
+            if (!voteCountMap[party]) {
+                voteCountMap[party] = 0; // Default to 0 if no vote exists for the party
             }
         });
 
-        const pollRes = await pollSchema.find({}, { _id: 0 });
+        // Get the total number of members for each party (all members, regardless of votted)
+        const totalMembers = await dataSchema.aggregate([
+            {
+                $group: {
+                    _id: "$party", // Group by the 'party' field
+                    totalMembers: { $sum: 1 } // Count the total members for each party
+                }
+            },
+            {
+                $project: {
+                    _id: 0,          // Exclude _id from the result
+                    party: "$_id",   // Rename _id to 'party'
+                    totalMembers: 1  // Include the total count
+                }
+            }
+        ]);
 
-        // Construct the final response
+        // Create a map of total members for each party
+        const totalMembersMap = totalMembers.reduce((acc, item) => {
+            acc[item.party] = item.totalMembers;
+            return acc;
+        }, {});
+
+        // Ensure all parties ('a', 'b', 'c') are included in the map with default total members count of 0
+        allParties.forEach(party => {
+            if (!totalMembersMap[party]) {
+                totalMembersMap[party] = 0; // Default to 0 if no members exist for the party
+            }
+        });
+
+        // Get the poll details (the previous functionality)
+        const pollRes = await pollSchema.find({}, { _id: 0, currentPoll: 1,totalMembers:1 });
+
+        // Construct the final response by combining the previous details and the new vote statistics
         res.status(200).json({
             success: true,
-            data: resultMap, // Use the transformed object
-            pollDetails: pollRes[0]
+            data: voteCountMap,       // Votes for each party (only 'votted: y')
+            totalMembers: totalMembersMap, // Total members for each party
+            pollDetails: pollRes[0]   // Previous poll details
         });
 
     } catch (error) {
@@ -49,17 +133,12 @@ const getStatistics = async (req, res) => {
     }
 };
 
+
+
+
 const vote = async (req, res) => {
     try {
-        const { vote, memberNo } = req.body;
-
-        // Validate input
-        if (!vote || !['a', 'b', 'c', 'n'].includes(vote)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid vote value. Allowed values are 'a', 'b', 'c', 'n'.",
-            });
-        }
+        const {  memberNo } = req.body;
 
         if (!memberNo) {
             return res.status(400).json({
@@ -83,9 +162,9 @@ const vote = async (req, res) => {
             { memberNo: Number(memberNo) }, // Find member by memberNo
             {
                 $set: {
-                    currentPollVote: vote, // Update the currentPollVote field
+                    votted: 'y', // Update the currentPollVote field
                     [`votes.poll${currentPoll}`]: { // Dynamically add/update the poll entry
-                        vote: vote,
+                        vote: 'y',
                         updatedAt: new Date(), // Record the update time
                     },
                 },

@@ -41,7 +41,7 @@ const Datatable = ({ data }) => {
             filtered = filtered.filter(entry => {
                 const query = voteQuery.toLowerCase();
                 return (
-                    (entry.currentPollVote && entry.currentPollVote.toString().toLowerCase().includes(query))                    
+                    (entry.votted && entry.votted.toString().toLowerCase().includes(query))                    
                 );
             });
         }

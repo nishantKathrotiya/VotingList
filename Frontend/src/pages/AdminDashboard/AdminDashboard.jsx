@@ -34,7 +34,7 @@ const AdminDashboard = () => {
               data == null ? (<>Data Not Found</>) : (
                 <>
                   <div className={s.cardContainer}>
-                  <SearchToVote />
+                  <SearchToVote setData={setData} />
                     <div className={s.card}>
                       <h2>Current Statistics</h2>
                       <p className={s.cardText}>

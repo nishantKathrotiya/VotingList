@@ -18,8 +18,8 @@
 
 .card{
     width: 49%;
-    min-width: 350px;
-    height: 250px;
+    min-width: 400px;
+    height: 280px;
     border-radius: 5px;
     border: 1px solid gray;
     margin: 5px 0;

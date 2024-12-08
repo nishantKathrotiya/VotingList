@@ -1,53 +1,6 @@
 const dataSchema = require("../modal/DataSchema")
 const pollSchema  = require("../modal/PollDetails")
-// Get all data
-// const getStatistics = async (req, res) => {
-//     try {
-//         const result = await dataSchema.aggregate([
-//             {
-//                 $group: {
-//                     _id: "$currentPollVote", // Group by the 'currentPollVote' field
-//                     count: { $sum: 1 }      // Count occurrences of each value ('a', 'b', 'c', 'n')
-//                 }
-//             },
-//             {
-//                 $project: {
-//                     _id: 0,         // Exclude _id from the result
-//                     vote: "$_id",   // Rename _id to 'vote' to show the actual vote value ('a', 'b', 'c', 'n')
-//                     count: 1
-//                 }
-//             }
-//         ]);
 
-//         // List of all possible votes
-//         const allVotes = ['a', 'b', 'c', 'n'];
-
-//         // Create a map of the result for easier lookup
-//         const resultMap = result.reduce((acc, item) => {
-//             acc[item.vote] = item.count;
-//             return acc;
-//         }, {});
-
-//         // Ensure all votes ('a', 'b', 'c', 'n') are included in the map with default counts
-//         allVotes.forEach(vote => {
-//             if (!resultMap[vote]) {
-//                 resultMap[vote] = 0; // Default to 0 if no count exists for the vote
-//             }
-//         });
-
-//         const pollRes = await pollSchema.find({}, { _id: 0 });
-
-//         // Construct the final response
-//         res.status(200).json({
-//             success: true,
-//             data: resultMap, // Use the transformed object
-//             pollDetails: pollRes[0]
-//         });
-
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: error.message });
-//     }
-// };
 
 const getStatistics = async (req, res) => {
     try {
@@ -133,9 +86,6 @@ const getStatistics = async (req, res) => {
     }
 };
 
-
-
-
 const vote = async (req, res) => {
     try {
         const {  memberNo } = req.body;
@@ -180,11 +130,13 @@ const vote = async (req, res) => {
         }
 
         // Return success response
-        res.status(200).json({
-            success: true,
-            message: "Vote recorded successfully.",
-            data: updatedMember,
-        });
+        // res.status(200).json({
+        //     success: true,
+        //     message: "Vote recorded successfully.",
+        //     data: updatedMember,
+        // });
+
+        getStatistics(req,res);
     } catch (error) {
         // Handle any errors
         res.status(500).json({ success: false, message: error.message });
@@ -203,7 +155,7 @@ const getVoteDetails = async (req, res) => {
             });
         }
 
-        const member = await dataSchema.findOne({memberNo:memberNo},{_id:0,votes:0,srNo:0,createdAt:0,updatedAt:0});
+        const member = await dataSchema.findOne({memberNo:memberNo},{_id:0,memberNo:1,name:1,votted:1,party:1});
 
         if (!member) {
             return res.status(404).json({
@@ -250,7 +202,7 @@ const unvote = async (req, res) => {
             { memberNo: Number(memberNo) }, // Find the member by memberNo
             {
                 $set: {
-                    currentPollVote: 'n',
+                    votted: 'n',
                     [`votes.poll${currentPollNumber}.vote`]: 'n',
                 },
             },
@@ -264,11 +216,12 @@ const unvote = async (req, res) => {
             });
         }
 
-        res.status(200).json({
-            success: true,
-            message: "Unvoted successfully.",
-            data: updatedMember,
-        });
+        // res.status(200).json({
+        //     success: true,
+        //     message: "Unvoted successfully.",
+        //     data: updatedMember,
+        // });
+        getStatistics(req,res);
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -301,7 +254,7 @@ const newPoll = async (req, res) => {
             {}, // Apply to all members
             {
                 $set: {
-                    currentPollVote: 'n',
+                    votted: 'n',
                 },
             }
         );

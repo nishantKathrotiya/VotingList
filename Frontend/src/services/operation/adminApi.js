@@ -25,7 +25,7 @@ export async function getStats(setData,setLoading){
     setLoading(false);
 }
 
-export async function getMemberVote(memberNo,setData,setLoading){
+export async function getMemberVote(memberNo,setData2,setLoading){
 
    
     setLoading(true)
@@ -37,14 +37,11 @@ export async function getMemberVote(memberNo,setData,setLoading){
             throw new Error(response.data.message)
         }
         
-        setData({
+        setData2({
+            memberNo : response.data.data.memberNo || 0, 
             name: response.data.data.name || '', 
-            address: response.data.data.address || '',  
-            feeRecipt: response.data.data.feeRecipt || 0, 
-            mobileNo: response.data.data.mobileNo || '0000000000', 
-            ref: response.data.data.ref || '',  
-            pannel: response.data.data.pannel || '', 
-            currentPollVote:response.data.data.currentPollVote || 'n'
+            votted :  response.data.data.votted,
+            party: response.data.data.votted
         });
     }
     catch (error) {
@@ -54,27 +51,21 @@ export async function getMemberVote(memberNo,setData,setLoading){
     setLoading(false);
 }
 
-export async function sendVote(memberNo,vote,setLoading,setData){
+export async function sendVote(memberNo,setLoading,setData,setData2,setMemberNo){
 
     setLoading(true)
     try {
-        const response = await apiConnector("POST", adminEndPoints.SEND_VOTE ,{memberNo,vote});
+        const response = await apiConnector("POST", adminEndPoints.SEND_VOTE ,{memberNo});
         console.log("LOGIN API RESPONSE............", response)
 
         if(!response.data.success) {
             throw new Error(response.data.message)
         }
         
-        setData({
-            name: response.data.data.name || '', 
-            address: response.data.data.address || '',  
-            feeRecipt: response.data.data.feeRecipt || 0, 
-            mobileNo: response.data.data.mobileNo || '0000000000', 
-            ref: response.data.data.ref || '',  
-            pannel: response.data.data.pannel || '', 
-            currentPollVote:response.data.data.currentPollVote || 'n'
-        });
-        toast.success('Vote Sent')
+        setData(response.data);
+        setData2(null);
+        setMemberNo('');
+        toast.success('Vote Sent');
     }
     catch (error) {
         console.log("LOGIN API ERROR............", error)
@@ -83,7 +74,7 @@ export async function sendVote(memberNo,vote,setLoading,setData){
     setLoading(false);
 }
 
-export async function unvoteMember(memberNo,setLoading,setData){
+export async function unvoteMember(memberNo,setLoading,setData,setData2,setMemberNo){
 
    
     setLoading(true)
@@ -94,15 +85,9 @@ export async function unvoteMember(memberNo,setLoading,setData){
         if(!response.data.success) {
             throw new Error(response.data.message)
         }
-        setData({
-            name: response.data.data.name || '', 
-            address: response.data.data.address || '',  
-            feeRecipt: response.data.data.feeRecipt || 0, 
-            mobileNo: response.data.data.mobileNo || '0000000000', 
-            ref: response.data.data.ref || '',  
-            pannel: response.data.data.pannel || '', 
-            currentPollVote:response.data.data.currentPollVote || 'n'
-        });
+        setData(response.data);
+        setData2(null);
+        setMemberNo('');
         toast.success('Unvote successfull')
     }
     catch (error) {

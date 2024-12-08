@@ -1,17 +1,28 @@
 import React from "react";
-import  s from './PollDropdown.module.css';
+import s from './PollDropdown.module.css';
 
-const PollDropdown = ({ currentPoll }) => {
-    // Generate an array of numbers from currentPoll down to 1
-    const options = Array.from({ length: currentPoll }, (_, i) => currentPoll - i);
+const PollDropdown = ({ partyFilter, setPartyFilter }) => {
+    // The list of options for the dropdown
+    const options = ["a", "b", "c", "n"];
+
+    // Handle change in selection
+    const handleChange = (e) => {
+        setPartyFilter(e.target.value); // Update the state with the selected value
+    };
 
     return (
-        <div className={s.dropConatainer}>
-            <label htmlFor="pollSelect">Select Poll: </label>
-            <select id="pollSelect" name="pollSelect" className={s.optionsConatiner}>
+        <div className={s.dropContainer}>
+            <select
+                id="pollSelect"
+                name="pollSelect"
+                className={s.optionsContainer}
+                value={partyFilter} // Set the current value to reflect the state
+                onChange={handleChange} // Update state on selection change
+                aria-placeholder="Select an option"
+            >
                 {options.map((option) => (
-                    <option key={option} value={option} >
-                        Poll {option}
+                    <option key={option} value={option}>
+                        {option.toUpperCase()}
                     </option>
                 ))}
             </select>

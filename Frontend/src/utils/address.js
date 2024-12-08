@@ -169,5 +169,5 @@ export const address = [
 ];
 
 export const vote = [
-  'a','b','c','n'
+  'n','y'
 ];

@@ -4,10 +4,11 @@ import { MdFilterAltOff } from "react-icons/md";
 import Filter from '../Dropdown/Filter';
 import "./Datatable.css";
 import { Link } from 'react-router-dom';
-
+import PollDropdown from '../PollDropdown/PollDropdown.Jsx'
 const UserDatatable = ({ data }) => {
 
     const [searchQuery, setSearchQuery] = useState('');
+    const [partyFilter, setPartyFilter] = useState('n')
     const [voteQuery, setVoteQuery] = useState('');
     const [addressQuery, setAddressQuery] = useState('');
     const [sortConfig, setSortConfig] = useState(null);
@@ -45,6 +46,15 @@ const UserDatatable = ({ data }) => {
             });
         }
 
+        if (partyFilter!='n') {
+            filtered = filtered.filter(entry => {
+                const query = partyFilter.toLowerCase();
+                return (
+                    (entry.party && entry.party.toString().toLowerCase().includes(partyFilter))                    
+                );
+            });
+        }
+
         if (sortConfig !== null) {
             filtered.sort((a, b) => {
                 if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -58,7 +68,7 @@ const UserDatatable = ({ data }) => {
         }
 
         setFilteredData(filtered);
-    }, [searchQuery, sortConfig,voteQuery,addressQuery, data]);
+    }, [searchQuery, sortConfig,voteQuery,addressQuery,partyFilter, data]);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -82,6 +92,7 @@ const UserDatatable = ({ data }) => {
                         value={searchQuery}
                         onChange={handleSearchChange}
                     />
+                    <PollDropdown partyFilter={partyFilter} setPartyFilter={setPartyFilter} />
                     <button onClick={clearFilters} className='toolTip' data-tooltip-content="Click To Clear Filter">
                         <MdFilterAltOff className='iconMedium' />
                     </button>
@@ -92,6 +103,7 @@ const UserDatatable = ({ data }) => {
                     <span className='titlelable'>Member No</span>
                     <span className='titlelable'>Name </span>
                     <span className='titlelable '>Address <Filter id="address" callBack={setAddressQuery}/></span>
+                    <span className='titlelable '>MobileNo. </span>
                     <span className='titlelable lastLine'>Vote <Filter id="vote" callBack={setVoteQuery}/></span>
                 </div>
                 {

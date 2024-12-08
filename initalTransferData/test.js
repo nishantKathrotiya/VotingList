@@ -5,7 +5,7 @@ const pollModal = require('./PollSchema')
 const mongoose = require("mongoose");
 
 //Provide XLSX File to Get Data and Store to DB
-const excelFilePath = "path_to_xlsx.xlsx";
+const excelFilePath = "./yadi.xlsx";
 const workbook = XLSX.readFile(excelFilePath);
 
 // Get the first sheet
@@ -17,7 +17,7 @@ const jsonData = XLSX.utils.sheet_to_json(sheet);
 const batchSize = 10;  // Adjust batch size (number of documents per batch)
 const totalRecords = jsonData.length;
 
-const url = 'DBURL';  
+const url = 'mongodb://127.0.0.1:27017/voting';  
 
 mongoose.connect(url).then(() => {
     console.log("Connected to MongoDB using Mongoose");

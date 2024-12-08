@@ -25,6 +25,16 @@ const dataSchema = mongoose.Schema({
     pannel: {
         type: String,
     },
+    party:{
+        type:String,
+        enum:['a','b','c'],
+        default:'a'
+    },
+    votted:{
+        type:String,
+        enum:['y','n'],
+        default:'n'
+    },
     currentPollVote:{
         type:String,
         enum:['a','b','c','n'],

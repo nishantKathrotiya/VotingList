@@ -30,6 +30,16 @@ const dataSchema = mongoose.Schema({
         enum:['a','b','c','n'],
         default:'n'
     },
+    party:{
+        type:String,
+        enum:['a','b','c'],
+        default:'a'
+    },
+    votted:{
+        type:String,
+        enum:['y','n'],
+        default:'n'
+    },
     votes: {
         type: Map,
         of: {

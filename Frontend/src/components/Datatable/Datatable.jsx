@@ -3,10 +3,12 @@ import Dataview from '../Dataview/Dataview';
 import { MdFilterAltOff } from "react-icons/md";
 import Filter from '../Dropdown/Filter';
 import "./Datatable.css";
-import { Link } from 'react-router-dom';
+import PollDropdown from '../PollDropdown/PollDropdown'
 
 const Datatable = ({ data }) => {
+   
     const [searchQuery, setSearchQuery] = useState('');
+    const [partyFilter, setPartyFilter] = useState('n')
     const [voteQuery, setVoteQuery] = useState('');
     const [addressQuery, setAddressQuery] = useState('');
     const [sortConfig, setSortConfig] = useState(null);
@@ -44,6 +46,15 @@ const Datatable = ({ data }) => {
             });
         }
 
+        if (partyFilter!='n') {
+            filtered = filtered.filter(entry => {
+                const query = partyFilter.toLowerCase();
+                return (
+                    (entry.party && entry.party.toString().toLowerCase().includes(partyFilter))                    
+                );
+            });
+        }
+
         if (sortConfig !== null) {
             filtered.sort((a, b) => {
                 if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -57,7 +68,7 @@ const Datatable = ({ data }) => {
         }
 
         setFilteredData(filtered);
-    }, [searchQuery, sortConfig,voteQuery,addressQuery, data]);
+    }, [searchQuery, sortConfig,voteQuery,addressQuery,partyFilter, data]);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -68,39 +79,9 @@ const Datatable = ({ data }) => {
         setSortConfig(null);
         setVoteQuery('');
         setAddressQuery('');
+        setVoteQuery('');
+        setPartyFilter('n')
     };
-
-    // const requestSort = (key) => {
-    //     let direction = 'ascending';
-    //     if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-    //         direction = 'descending';
-    //     }
-    //     setSortConfig({ key, direction });
-    // };
-
-    // const filterData = [
-    //     {
-    //         id: "memberNo",
-    //         title: "Ascending",
-    //         callback: () => requestSort('memberNo')
-    //     },
-    //     {
-    //         id: "memberNo",
-    //         title: "Descending",
-    //         callback: () => requestSort('memberNo')
-    //     },
-    //     {
-    //         id: "name",
-    //         title: "Ascending",
-    //         callback: () => requestSort('name')
-    //     },
-    //     {
-    //         id: "name",
-    //         title: "Descending",
-    //         callback: () => requestSort('name')
-    //     },
-    // ];
-
     return (
         <div className='dataTableContainer'>
             <div className='titleRow'>
@@ -112,6 +93,7 @@ const Datatable = ({ data }) => {
                         value={searchQuery}
                         onChange={handleSearchChange}
                     />
+                     <PollDropdown partyFilter={partyFilter} setPartyFilter={setPartyFilter} />
                     <button onClick={clearFilters} className='toolTip' data-tooltip-content="Click To Clear Filter">
                         <MdFilterAltOff className='iconMedium' />
                     </button>
@@ -122,6 +104,8 @@ const Datatable = ({ data }) => {
                     <span className='titlelable'>Member No</span>
                     <span className='titlelable'>Name </span>
                     <span className='titlelable '>Address  <Filter id="address" callBack={setAddressQuery} /> </span>
+                    <span className='titlelable '>MobileNo. </span>
+                    <span className='titlelable lastLine'>Vote <Filter id="vote" callBack={setVoteQuery}/></span>
                     <span className='titlelable lastLine'>Action</span>
                 </div>
                 {

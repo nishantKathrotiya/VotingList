@@ -4,6 +4,7 @@ import MemberUpdate from './pages/MemberUpdate/MemberUpdate.jsx'
 import AdminLayout from './layout/AdminLayout.jsx'
 import UserLayout from './layout/UserLayout.jsx'
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard.jsx'
+import UserDashboard from './pages/UserDashboard/UserDashboard.jsx'
 import Vote from './pages/Vote/Vote.jsx'
 function App() {
   
@@ -24,14 +25,14 @@ function App() {
           <Route path="/admin" element={<AdminDashboard /> }/>
           <Route path="/admin/list" element={<List  id={"admin"} /> } />
           <Route path="/admin/:memberNo/edit" element={<MemberUpdate /> } />
-          <Route path="/admin/:memberNo/vote" element={<Vote /> } />
-          <Route path="/admin/allpolls" element={<h1>Coming Soon..</h1> } />
         </Route>
 
 
         <Route path="/user" element={<UserLayout /> }>
-          <Route path="/user" element={<List id={"user"} /> } />
+          <Route path="/user" element={<UserDashboard /> } />
         </Route>
+
+        <Route path="/test" element={<Vote /> } />
 
       </Routes>
     </>

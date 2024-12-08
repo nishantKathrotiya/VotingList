@@ -1,0 +1,119 @@
+.layoutConatiner {
+    width: 100vw;
+    height: 100vh;
+    /* overflow: hidden; */
+}
+
+.outletConatienr {}
+
+
+.adminDashContainer {
+    width: 100vw;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: 'poppins';
+}
+
+.cardContainer {
+    width: 90%;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5px;
+}
+
+.card {
+    width: 49%;
+    min-width: 400px;
+    height: 280px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    margin: 5px 0;
+    padding: 8px;
+}
+
+.card h2 {
+    font-weight: 500;
+    font-size: xx-large;
+}
+
+.cardText {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+    font-weight: 500;
+
+}
+
+.cardText button {
+    cursor: pointer;
+    width: max-content;
+    height: max-content;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    background-color: transparent;
+    font-size: medium;
+    font-weight: 500;
+}
+
+.personlText {
+    font-weight: 400;
+    width: 100%;
+    text-align: start;
+}
+
+.pollDiv {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.LinkFix {
+    font-weight: 200;
+    color: #000;
+    text-decoration: underline;
+}
+
+.LinkFix h4 {
+    font-weight: 400 !important;
+}
+
+
+
+@media (max-width:760px) {
+    .cardContainer {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: nowrap;
+    }
+
+    .card {
+        min-width: 97%;
+    }
+
+
+    .card h2 {
+        font-weight: 500;
+        font-size: larger;
+    }
+
+    .cardText {
+
+        font-size: medium;
+
+    }
+
+}

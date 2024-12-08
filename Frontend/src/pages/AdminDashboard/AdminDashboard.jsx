@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    getStats(setData, setLoading)
+    getStats(setData, setLoading);
   }, [])
 
   const newPollHandler = (e)=>{

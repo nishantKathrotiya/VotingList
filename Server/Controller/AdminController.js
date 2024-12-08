@@ -273,5 +273,24 @@ const newPoll = async (req, res) => {
     }
 };
 
+const getCookies = async (req, res) => {
+    try {
+        
+        res.cookie('user', 'JohnDoe', {
+            httpOnly: false,        // makes the cookie accessible only by the server (security)
+            secure: true, // ensures cookies are only sent over HTTPS in production
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+            sameSite: 'none'     // strict same-site policy
+          });
+          res.send({
+            success:true
+          })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
 
-module.exports = {  getStatistics , vote ,getVoteDetails,unvote , newPoll};
+module.exports = {  getStatistics , vote ,getVoteDetails,unvote , newPoll,getCookies};

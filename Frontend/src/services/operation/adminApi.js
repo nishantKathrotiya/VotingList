@@ -3,10 +3,7 @@ import { apiConnector } from "../connector";
 import { adminEndPoints, baseUserEndPoitns } from "../api";
 
 
-
 export async function getStats(setData,setLoading){
-
-   
     setLoading(true)
     try {
         const response = await apiConnector("GET", adminEndPoints.GET_STATS)
@@ -15,8 +12,8 @@ export async function getStats(setData,setLoading){
         if(!response.data.success) {
             throw new Error(response.data.message)
         }
-       
-        setData(response.data)
+
+        setData(response.data);
     }
     catch (error) {
         console.log("LOGIN API ERROR............", error)
@@ -116,4 +113,23 @@ export async function startNewPoll(setData,setLoading){
         toast.error(error.message)
     }
     setLoading(false);
+}
+
+export async function getCoo(setData,setLoading){
+   
+    try {
+        const response = await apiConnector("GET", adminEndPoints.GET_C)
+        console.log("LOGIN API RESPONSE............", response)
+
+        if(!response.data.success) {
+            throw new Error(response.data.message)
+        }
+
+        toast.success("Cookies Arrived")
+    }
+    catch (error) {
+        console.log("LOGIN API ERROR............", error)
+        toast.error(error.message)
+    }
+    
 }

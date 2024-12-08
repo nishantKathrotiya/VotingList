@@ -4,7 +4,7 @@ import { MdFilterAltOff } from "react-icons/md";
 import Filter from '../Dropdown/Filter';
 import "./Datatable.css";
 import { Link } from 'react-router-dom';
-import PollDropdown from '../PollDropdown/PollDropdown.Jsx'
+import PollDropdown from '../PollDropdown/PollDropdown.jsx'
 const UserDatatable = ({ data }) => {
 
     const [searchQuery, setSearchQuery] = useState('');

@@ -10,7 +10,7 @@ const Dataview = ({entry}) => {
                     <span className='titlelable '>{entry.address}</span>
                     <span className='titlelable '>{entry.mobileNo ? (entry.mobileNo) : (<>-</>)}</span>
                     <span className='titlelable lastLine'>{entry.votted.toUpperCase()}</span>
-                    <span className='titlelable lastLine'><Link to={`/admin/${entry.memberNo}/edit`}>Edit</Link> | <Link to={`/admin/${entry.memberNo}/vote`}>Vote </Link></span>
+                    <span className='titlelable lastLine'><Link to={`/admin/${entry.memberNo}/edit`}>Edit</Link> </span>
                 </div>
   )
 }

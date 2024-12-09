@@ -41,7 +41,7 @@ export async function getBaseUserListByMemberNo(memberNo,setData,setLoading){
             feeRecipt: response.data.data.feeRecipt || 0, 
             mobileNo: response.data.data.mobileNo || '0000000000', 
             ref: response.data.data.ref || '',  
-            pannel: response.data.data.pannel || '', 
+            party: response.data.data.party || '', 
           });
     }
     catch (error) {
@@ -70,7 +70,7 @@ export async function baseUserUpdate(memberNo,data,setData,setLoading){
             feeRecipt: response.data.data.feeRecipt || 0, 
             mobileNo: response.data.data.mobileNo || '0000000000', 
             ref: response.data.data.ref || '',  
-            pannel: response.data.data.pannel || '', 
+            party: response.data.data.party || '', 
           });
           toast.success("Updated")
     }

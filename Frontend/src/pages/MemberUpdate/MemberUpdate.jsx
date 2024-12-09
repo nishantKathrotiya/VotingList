@@ -14,12 +14,13 @@ const MemberUpdate = () => {
         feeRecipt: 0,
         mobileNo: '000000000',
         ref: '',
-        pannel: '',
+        party: '',
     });
 
     const [errors, setErrors] = useState({
         name: '',
         address: '',
+        party: '',
     });
 
     // Fetch initial data
@@ -56,6 +57,20 @@ const MemberUpdate = () => {
             }));
         }
 
+        if (name === 'party') {
+            if (!['a', 'b', 'c'].includes(value.trim().toLowerCase())) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    party: 'Pannel must be either "a", "b", or "c".',
+                }));
+            } else {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    party: '',
+                }));
+            }
+        }
+
         // Update state
         setData((prevData) => ({
             ...prevData,
@@ -79,6 +94,23 @@ const MemberUpdate = () => {
             setErrors((prevErrors) => ({
                 ...prevErrors,
                 address: 'Address is required.',
+            }));
+            return;
+        }
+
+        if (!data.party.trim()) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                party: 'Pannel is required.',
+            }));
+            return;
+        }
+
+
+        if (!['a', 'b', 'c'].includes(data.party.trim().toLowerCase())) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                party: 'Pannel must be either "a", "b", or "c".',
             }));
             return;
         }
@@ -165,14 +197,15 @@ const MemberUpdate = () => {
                                         </div>
 
                                         <div className={s.inputContaienr}>
-                                            <label htmlFor="pannel">Pannel: </label>
+                                            <label htmlFor="party">Pannel: </label>
                                             <input
                                                 type="text"
-                                                id="pannel"
-                                                name="pannel"
-                                                value={data.pannel}
+                                                id="party"
+                                                name="party"
+                                                value={data.party}
                                                 onChange={handleChange}
                                             />
+                                            {errors.party && <p className={s.error}>{errors.party}</p>}
                                         </div>
                                     </div>
                                 </>

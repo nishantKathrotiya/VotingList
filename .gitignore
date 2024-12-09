@@ -4,6 +4,9 @@
 #Server node_module
 ./Server/node_module
 
+./initalTransferData/yadiFinal.xlsx
+yadiFinal.xlsx
+
 node_modules
 .env
 

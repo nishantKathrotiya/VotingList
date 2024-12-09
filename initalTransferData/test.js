@@ -5,7 +5,7 @@ const pollModal = require('./PollSchema')
 const mongoose = require("mongoose");
 
 //Provide XLSX File to Get Data and Store to DB
-const excelFilePath = "./yadi.xlsx";
+const excelFilePath = "./yadiFinal.xlsx";
 const workbook = XLSX.readFile(excelFilePath);
 
 // Get the first sheet

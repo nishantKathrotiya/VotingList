@@ -24,7 +24,7 @@ function App() {
         <Route path="/user" element={<UserLayout /> }>
           <Route path="/user" element={<UserDashboard /> } />
         </Route>
-
+      
       </Routes>
     </>
   )

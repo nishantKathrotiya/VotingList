@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import { apiConnector } from "../connector";
 // import { setToken , setUser } from "../../slices/profile";
 import { authEndPoins } from "../api";
+import Cookies from 'js-cookie';
+
 
 
 export async function signUp(formData , setLoading){
@@ -27,6 +29,41 @@ export async function signUp(formData , setLoading){
   }
 
 
+  export async function login(userId,password){
+  
+    const toastId = toast.loading("Loading...")
+
+    try {
+      const response = await apiConnector("POST", authEndPoins.LOGIN_API, {userId, password,})
+      console.log("LOGIN API RESPONSE............", response)
+
+      if(!response.data.success) {
+        throw new Error(response.data.message)
+      }
+
+      toast.success("Login Successful")
+      // dispatch(setToken(response.data.token))
+      // dispatch(setUser({ ...response.data.user}))
+      
+      localStorage.setItem("token", JSON.stringify(response.data.token));
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      Cookies.set('token', response.data.token, { expires: 1, path: '' }); // Cookie expires in 7 days
+      // const value = Cookies.get('token'); // Get the value of 'myCookie'
+      // Cookies.remove('token'); // Delete 'myCookie'
+     
+    // navigate('/dashboard')
+    }
+     catch (error) {
+      console.log("LOGIN API ERROR............", error)
+      toast.error(error.message)
+    }
+
+    toast.dismiss(toastId)
+  }
+
+
+login
 // export  function login(email,password,navigate){
 //   return async (dispatch) => {
 //     const toastId = toast.loading("Loading...")

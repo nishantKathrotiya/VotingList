@@ -79,19 +79,19 @@ const login = async (req, res) => {
           expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
           httpOnly: false,
         };
-        res.cookie("token", token, options);
+        // res.cookie("token", token, options);
 
         return res.status(200).json({
           success: true,
           token,
-          user,
+          role:user.role,
           message: "Logged in successfully",
         });
 
       } else {
         return res.json({
           success: false,
-          message: "Password is incorrect",
+          message: "Incorrect Password",
         });
       }
     } catch (error) {

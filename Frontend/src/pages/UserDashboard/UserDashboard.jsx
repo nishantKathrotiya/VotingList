@@ -3,6 +3,7 @@ import { getStats } from '../../services/operation/adminApi';
 import { Outlet } from 'react-router-dom'
 import List from '../List/List';
 import s from './UserDashboard.module.css'
+import Cookies from 'js-cookie'
 
 const UserDashboard = () => {
 
@@ -11,6 +12,8 @@ const UserDashboard = () => {
   
     useEffect(() => {
       getStats(setData, setLoading)
+      const token = Cookies.get('token');
+      console.log("Priting Token",token)
     }, [])
 
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import s from './Login.module.css';
+import { login } from '../../services/operation/authApi';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -37,6 +38,7 @@ const Login = () => {
     e.preventDefault();
     if (validate()) {
       //aPI cALL
+      login(formData.userId,formData.password);
     }
   };
 

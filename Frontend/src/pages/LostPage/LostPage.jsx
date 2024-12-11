@@ -7,7 +7,7 @@ const LostPage = () => {
         <div className={s.mainConatiner}>
            <div className={s.innerBox}>
                 <h1>Opps You Lost!!</h1>
-                <Link to="/" className={s.linkBtn}>So me Way</Link>
+                <Link to="/" className={s.linkBtn}>Show me Way</Link>
            </div>
         </div>
     )

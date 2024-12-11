@@ -4,6 +4,7 @@ import UserDataView from '../Dataview/UserDataView';
 import { MdFilterAltOff } from "react-icons/md";
 import { FiDownload } from "react-icons/fi";
 import Filter from '../Dropdown/Filter';
+import { toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
 import "./Datatable.css";
 
@@ -85,16 +86,22 @@ const UserDatatable = ({ data }) => {
     };
 
     const exportToExcel = () => {
+
+        if (filteredData.length == 0) {
+            toast.warning("No Data To Export")
+            return;
+        }
+
         // Create a worksheet from the data
         const ws = XLSX.utils.json_to_sheet(filteredData);
-    
+
         // Create a new workbook and append the worksheet to it
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    
+
         // Generate and download the Excel file
         XLSX.writeFile(wb, 'data.xlsx');
-      };
+    };
 
     return (
         <div className='dataTableContainer'>

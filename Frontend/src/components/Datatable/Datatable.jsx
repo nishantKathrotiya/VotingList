@@ -6,6 +6,7 @@ import Dataview from '../Dataview/Dataview';
 import Filter from '../Dropdown/Filter';
 import * as XLSX from 'xlsx';
 import "./Datatable.css";
+import { toast } from 'react-toastify';
 const Datatable = ({ data }) => {
    
     const [searchQuery, setSearchQuery] = useState('');
@@ -85,6 +86,11 @@ const Datatable = ({ data }) => {
     };
 
     const exportToExcel = () => {
+
+        if(filteredData.length == 0){
+                toast.warning("No Data To Export")
+                return;
+        }
         // Create a worksheet from the data
         const ws = XLSX.utils.json_to_sheet(filteredData);
     

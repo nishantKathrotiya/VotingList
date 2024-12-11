@@ -25,9 +25,7 @@ const SearchToVote = ({ setData }) => {
         // Validate input
         if (!memberNo || isNaN(memberNumber)) {
             setError('Please enter a valid member number.');
-        } else if (memberNumber <= 0 || memberNumber >= 2000) {
-            setError('Member number must be a positive integer less than 2000.');
-        } else {
+        }  else {
             //Proceed Further
             getMemberVote(memberNo, setData2, setloading)
         }

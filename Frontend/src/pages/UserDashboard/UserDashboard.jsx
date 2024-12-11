@@ -12,8 +12,6 @@ const UserDashboard = () => {
   
     useEffect(() => {
       getStats(setData, setLoading)
-      const token = Cookies.get('token');
-      console.log("Priting Token",token)
     }, [])
 
 

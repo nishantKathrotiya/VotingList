@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { apiConnector } from "../connector";
 import { baseUserEndPoitns } from "../api";
-
+import Cookies from 'js-cookie'
 
 
 export async function getBaseUserList(setData,setLoading){
@@ -9,7 +9,7 @@ export async function getBaseUserList(setData,setLoading){
    
     setLoading(true)
     try {
-        const response = await apiConnector("GET", baseUserEndPoitns.GET_List)
+        const response = await apiConnector("GET", baseUserEndPoitns.GET_List,Cookies.get('token'))
         console.log("LOGIN API RESPONSE............", response)
 
         if(!response.data.success) {
@@ -29,7 +29,7 @@ export async function getBaseUserListByMemberNo(memberNo,setData,setLoading){
   
     setLoading(true)
     try {
-        const response = await apiConnector("GET", baseUserEndPoitns.GET_List+`/${memberNo}`)
+        const response = await apiConnector("GET", baseUserEndPoitns.GET_List+`/${memberNo}`,Cookies.get('token'))
         console.log("LOGIN API RESPONSE............", response)
 
         if(!response.data.success) {
@@ -58,7 +58,7 @@ export async function baseUserUpdate(memberNo,data,setData,setLoading){
     const toastId = toast.loading("Loading...")
     setLoading(true)
     try {
-        const response = await apiConnector("POST", baseUserEndPoitns.UPDATE_MEMBER+`/${memberNo}` , {memberNo,data})
+        const response = await apiConnector("POST", baseUserEndPoitns.UPDATE_MEMBER+`/${memberNo}` ,Cookies.get('token'), {memberNo,data})
         console.log("LOGIN API RESPONSE............", response)
 
         if(!response.data.success) {

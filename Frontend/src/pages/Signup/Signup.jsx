@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import s from './Signup.module.css';
 import { signUp } from '../../services/operation/authApi';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
     const [loading, setLoading] = useState(false);
@@ -151,6 +152,7 @@ const Signup = () => {
                     {/* Submit Button */}
                     <div className={s.btnContainer}>
                         <button type="submit">Signup</button>
+                        <Link className={s.nav} to="/">Alredy Have an UserID? Login</Link>
                     </div>
                 </form>
             </div>

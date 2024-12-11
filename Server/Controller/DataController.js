@@ -13,27 +13,6 @@ const getAllData = async (req, res) => {
     }
 };
 
-const getDataByName = async (req, res) => {
-    const { name } = req.query; // Extract the 'name' query parameter
-
-
-    if (!name) {
-        return res.status(400).json({ error: "Name query parameter is required." });
-    }
-
-    try {
-        // Use regex for case-insensitive partial matching
-        const data = await dataSchema.find({ name: { $regex: name, $options: 'u' } });
-
-        if (data.length === 0) {
-            return res.status(404).json({ message: "No data found with the given name." });
-        }
-
-        res.status(200).json(data);
-    } catch (error) {
-        res.status(500).json({ success:false,message: error.message });
-    }
-};
 
 const getDataByMemberID = async (req, res) => {
     const { memberNo } = req.params; // Extract the 'name' query parameter
@@ -110,4 +89,4 @@ const addressUpdates = async (req, res) =>  {
 }
 
 
-module.exports = { getAllData, getDataByName,getDataByMemberID,updateMember,addressUpdates };
+module.exports = { getAllData,getDataByMemberID,updateMember,addressUpdates };

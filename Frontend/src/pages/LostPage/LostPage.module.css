@@ -1,0 +1,31 @@
+.mainConatiner {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.innerBox {
+    width: 90%;
+    min-height: 400px;
+    height: max-content;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.linkBtn {
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #1a1a1a;
+    background-color: #000;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: medium;
+    /* margin-top: 20px; */
+}

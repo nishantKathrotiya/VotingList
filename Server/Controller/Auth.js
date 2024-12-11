@@ -64,7 +64,7 @@ const login = async (req, res) => {
       if (await bcrypt.compare(password, user.password)) {
 
         const payload = {
-            userId: user.email,
+            userId: user.userId,
             role: user.role,
         };
 

@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
-// import { setLoading,setSignupData  } from "../../slices/auth";
 import { apiConnector } from "../connector";
-// import { setToken , setUser } from "../../slices/profile";
+import { setToken , setRole , setLoading } from "../../slices/profile";
 import { authEndPoins } from "../api";
 import Cookies from 'js-cookie';
 
@@ -12,7 +11,7 @@ export async function signUp(formData , setLoading){
     const toastId = toast.loading("Loading...")
     setLoading(true)
     try {
-      const response = await apiConnector("POST", authEndPoins.SIGNUP_API, {formData})
+      const response = await apiConnector("POST", authEndPoins.SIGNUP_API,null, {formData})
 
         if(!response.data.success){
           throw new Error(response.data.msg)
@@ -29,77 +28,47 @@ export async function signUp(formData , setLoading){
   }
 
 
-  export async function login(userId,password){
+  export  function login(userId,password,navigate){
+    return async (dispatch)=>{
+      const toastId = toast.loading("Loading...")
+      dispatch(setLoading(true))
+      try {
+        const response = await apiConnector("POST", authEndPoins.LOGIN_API,null, {userId, password,})
+        console.log("LOGIN API RESPONSE............", response)
   
-    const toastId = toast.loading("Loading...")
-
-    try {
-      const response = await apiConnector("POST", authEndPoins.LOGIN_API, {userId, password,})
-      console.log("LOGIN API RESPONSE............", response)
-
-      if(!response.data.success) {
-        throw new Error(response.data.message)
+        if(!response.data.success) {
+          throw new Error(response.data.message)
+        }
+  
+        toast.success("Login Successful")
+        dispatch(setToken(response.data.token));
+        dispatch(setRole(response.data.role));
+        
+        localStorage.setItem("token", JSON.stringify(response.data.token));
+        localStorage.setItem("role", JSON.stringify(response.data.role));
+  
+        Cookies.set('token', response.data.token, { expires: 1, path: '' }); 
+       
+      navigate(`/${response.data.role}`)
       }
-
-      toast.success("Login Successful")
-      // dispatch(setToken(response.data.token))
-      // dispatch(setUser({ ...response.data.user}))
-      
-      localStorage.setItem("token", JSON.stringify(response.data.token));
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-
-      Cookies.set('token', response.data.token, { expires: 1, path: '' }); // Cookie expires in 7 days
-      // const value = Cookies.get('token'); // Get the value of 'myCookie'
-      // Cookies.remove('token'); // Delete 'myCookie'
-     
-    // navigate('/dashboard')
+       catch (error) {
+        console.log("LOGIN API ERROR............", error)
+        toast.error(error.message)
+      }
+      dispatch(setLoading(false))
+      toast.dismiss(toastId)
     }
-     catch (error) {
-      console.log("LOGIN API ERROR............", error)
-      toast.error(error.message)
-    }
-
-    toast.dismiss(toastId)
   }
 
 
-login
-// export  function login(email,password,navigate){
-//   return async (dispatch) => {
-//     const toastId = toast.loading("Loading...")
-//     dispatch(setLoading(true))
-//     try {
-//       const response = await apiConnector("POST", 'http://localhost:4000/api/v1/auth/login', {email, password,})
-//       console.log("LOGIN API RESPONSE............", response)
-
-//       if(!response.data.success) {
-//         throw new Error(response.data.message)
-//       }
-//       toast.success("Login Successful")
-//       dispatch(setToken(response.data.token))
-//       dispatch(setUser({ ...response.data.user}))
-      
-//       localStorage.setItem("token", JSON.stringify(response.data.token))
-//       localStorage.setItem("user", JSON.stringify(response.data.user))
-     
-//     navigate('/dashboard')
-//     }
-//      catch (error) {
-//       console.log("LOGIN API ERROR............", error)
-//       toast.error(error.message)
-//     }
-//     dispatch(setLoading(false))
-//     toast.dismiss(toastId)
-//   }
-// }
-
-// export function logout(navigate) {
-//   return (dispatch) => {
-//     dispatch(setToken(null))
-//     dispatch(setUser(null))
-//     localStorage.removeItem("token")
-//     localStorage.removeItem("user")
-//     navigate("/dashboard")
-//     toast.success("Logged Out")
-//   }
-// }
+export function logout(navigate) {
+  return (dispatch) => {
+    dispatch(setRole(null))
+    dispatch(setToken(null))
+    Cookies.remove('token'); 
+    localStorage.removeItem("role")
+    localStorage.removeItem("token")
+    navigate("/")
+    toast.success("Logged Out")
+  }
+}

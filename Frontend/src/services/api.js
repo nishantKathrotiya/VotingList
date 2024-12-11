@@ -1,5 +1,5 @@
-// const BASE_URL = "http://localhost:4000"
-const BASE_URL = "https://votinglist.onrender.com"
+const BASE_URL = "http://localhost:4000"
+// const BASE_URL = "https://votinglist.onrender.com"
 
 export const authEndPoins = {
     SIGNUP_API: BASE_URL + "/api/v1/auth/create",
@@ -17,5 +17,4 @@ export const adminEndPoints = {
   GET_MEMBER_VOTE : BASE_URL + "/api/v1/admin/getmembervote",
   UNVOTE : BASE_URL + "/api/v1/admin/unvote",
   NEW_POLL : BASE_URL + "/api/v1/admin/newpoll",
-   GET_C : BASE_URL + "/api/v1/admin/c"
 }

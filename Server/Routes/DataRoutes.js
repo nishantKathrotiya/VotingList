@@ -1,19 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const { getAllData, getDataByName,getDataByMemberID,updateMember,addressUpdates } = require('../Controller/DataController');
-const {getStatistics} = require("../Controller/AdminController")
+const { getAllData,getDataByMemberID,updateMember,addressUpdates } = require('../Controller/DataController');
+const {getStatistics} = require("../Controller/AdminController");
+const {isLoggedin, isAdmin, isUser} = require("../middleware/AuthMiddleware");
+
 // Route to fetch all data
-router.get('/', getAllData);
+
 router.get('/address', addressUpdates);
-router.get('/list', getAllData);
-router.get('/list/:memberNo', getDataByMemberID);
+router.get('/list',isLoggedin, getAllData);
+router.get('/list/:memberNo',isLoggedin, getDataByMemberID);
 
-router.post('/edit/:memberNo', updateMember);
+router.post('/edit/:memberNo',isLoggedin, updateMember);
 
-router.get('/statistic', getStatistics);
+router.get('/statistic',isLoggedin, getStatistics);
 
-
-// Route to fetch data by name
-router.get('/search', getDataByName);
 
 module.exports = router;

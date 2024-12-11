@@ -1,12 +1,12 @@
 import { toast } from "react-toastify";
 import { apiConnector } from "../connector";
 import { adminEndPoints, baseUserEndPoitns } from "../api";
-
+import Cookies from 'js-cookie'
 
 export async function getStats(setData,setLoading){
     setLoading(true)
     try {
-        const response = await apiConnector("GET", adminEndPoints.GET_STATS)
+        const response = await apiConnector("GET", adminEndPoints.GET_STATS,Cookies.get('token'))
         console.log("LOGIN API RESPONSE............", response)
 
         if(!response.data.success) {
@@ -27,7 +27,7 @@ export async function getMemberVote(memberNo,setData2,setLoading){
    
     setLoading(true)
     try {
-        const response = await apiConnector("GET", adminEndPoints.GET_MEMBER_VOTE + `/${memberNo}`);
+        const response = await apiConnector("GET", adminEndPoints.GET_MEMBER_VOTE + `/${memberNo}`,Cookies.get('token'));
         console.log("LOGIN API RESPONSE............", response)
 
         if(!response.data.success) {
@@ -52,7 +52,7 @@ export async function sendVote(memberNo,setLoading,setData,setData2,setMemberNo)
 
     setLoading(true)
     try {
-        const response = await apiConnector("POST", adminEndPoints.SEND_VOTE ,{memberNo});
+        const response = await apiConnector("POST", adminEndPoints.SEND_VOTE ,Cookies.get('token'),{memberNo});
         console.log("LOGIN API RESPONSE............", response)
 
         if(!response.data.success) {
@@ -76,7 +76,7 @@ export async function unvoteMember(memberNo,setLoading,setData,setData2,setMembe
    
     setLoading(true)
     try {
-        const response = await apiConnector("GET", adminEndPoints.UNVOTE + `/${memberNo}`);
+        const response = await apiConnector("GET", adminEndPoints.UNVOTE + `/${memberNo}`,Cookies.get('token'));
         console.log("LOGIN API RESPONSE............", response)
 
         if(!response.data.success) {
@@ -99,7 +99,7 @@ export async function startNewPoll(setData,setLoading){
    
     setLoading(true)
     try {
-        const response = await apiConnector("GET", adminEndPoints.NEW_POLL);
+        const response = await apiConnector("GET", adminEndPoints.NEW_POLL,Cookies.get('token'));
         console.log("New Poll API RESPONSE............", response)
 
         if(!response.data.success) {

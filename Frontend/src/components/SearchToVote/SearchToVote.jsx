@@ -38,9 +38,6 @@ const SearchToVote = ({ setData }) => {
         if (!memberNo || isNaN(memberNumber)) {
             alert('Please enter a valid member number.');
             return false;
-        } else if (memberNumber <= 0 || memberNumber >= 2000) {
-            alert('Member number must be a positive integer less than 2000.');
-            return false;
         } else if(memberNumber != data.memberNo){
             alert("Both MemberNo are Diffrent Find Again")
             return false;

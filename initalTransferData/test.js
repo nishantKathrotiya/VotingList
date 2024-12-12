@@ -37,7 +37,6 @@ mongoose.connect(url).then(() => {
   
       while (batchStart < totalRecords) {
         const batchData = jsonData.slice(batchStart, batchEnd);
-  
         try {
           const result = await DataModel.insertMany(batchData);
           console.log(`${result.length} records inserted from ${batchStart + 1} to ${batchEnd}`);
